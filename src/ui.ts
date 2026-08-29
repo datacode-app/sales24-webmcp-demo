@@ -63,7 +63,7 @@ function render(root: HTMLElement, state: CrmState) {
 
     <main>
       <header class="topbar">
-        <div><p class="eyebrow">Agent-native CRM workspace</p><h1>Sales24 Agent Desk</h1></div>
+        <div><p class="eyebrow">Open-source WebMCP reference harness</p><h1>Sales24 Agent Desk</h1></div>
         <div class="mcp-status ${webMcpMode}" data-webmcp-status><span></span>${webMcpMode === 'native' ? 'WebMCP connected' : webMcpMode === 'preview' ? 'Preview mode' : 'Checking WebMCP'}</div>
       </header>
 
@@ -71,7 +71,7 @@ function render(root: HTMLElement, state: CrmState) {
         <div><span class="hero-kicker">Humans decide. Agents accelerate.</span><h2>Turn every customer signal into a clear next action.</h2><p>Sales24 gives an agent structured access to the same multilingual inbox and pipeline the team sees, while every outbound message stays behind a human review gate.</p></div>
         <div class="tool-stack">
           <span>${icon('spark')} 5 live WebMCP tools</span>
-          <div class="tool-tags"><code>get_pipeline_snapshot</code><code>find_priority_conversations</code><code>focus_conversation</code><code>draft_follow_up</code><code>move_deal_stage</code></div>
+          <div class="tool-tags"><code>sales24_get_pipeline_summary</code><code>sales24_find_conversations</code><code>sales24_open_conversation</code><code>sales24_prepare_reply</code><code>sales24_move_deal_stage</code></div>
         </div>
       </section>
 
@@ -83,7 +83,7 @@ function render(root: HTMLElement, state: CrmState) {
 
       <section class="workspace-grid">
         <section class="panel inbox-panel">
-          <div class="panel-head"><div><p class="eyebrow">Unified inbox</p><h3>Priority conversations</h3></div><span class="live-dot">Live</span></div>
+          <div class="panel-head"><div><p class="eyebrow">Unified inbox</p><h3>Priority conversations</h3></div><span class="live-dot">Demo state</span></div>
           <div class="conversation-list">${state.contacts.map((contact) => conversationItem(contact, contact.id === focused.id)).join('')}</div>
         </section>
 
@@ -112,7 +112,7 @@ function render(root: HTMLElement, state: CrmState) {
       </section>
 
       <section class="prompt-strip" id="agent"><div><span>Try this WebMCP prompt</span><code>“Find my highest-priority Arabic lead, open it, and draft a demo follow-up.”</code></div><button data-copy-prompt>Copy prompt</button></section>
-      <footer><span>Sales24 by Datacode</span><span>WebMCP Challenge 2026 · Demo data only</span></footer>
+      <footer><span>Sales24 by Datacode</span><span>Reference harness · Fictional data · Real product demo separate</span></footer>
     </main>
   </div>`;
 

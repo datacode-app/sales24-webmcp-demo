@@ -1,103 +1,77 @@
-# Devpost submission draft
+# Devpost submission draft — real Sales24 product
+
+> **Status:** draft only. Do not submit until the real-product deployment, demo credentials, and replacement screen recording are approved.
 
 ## Project name
 
-Sales24 Agent Desk
+Sales24 WebMCP
 
 ## One-line pitch
 
-A multilingual CRM workspace where WebMCP agents prioritize customer conversations and prepare safe, human-reviewed follow-ups without ever sending autonomously.
+WebMCP turns the real Sales24 multilingual CRM into a safe agent workspace where agents prioritize customer conversations and prepare replies while humans retain control of every outbound message.
 
 ## Short description
 
-Sales24 Agent Desk gives browser agents five structured WebMCP tools for reading a CRM pipeline, finding priority conversations, focusing customer context, drafting Sorani Kurdish, Arabic, or English follow-ups, and moving deals forward. Every draft enters a visible human-review queue, and no send tool is exposed.
+Sales24 now exposes five structured WebMCP tools from its real authenticated CRM interface. An agent can read the current pipeline, find authorized priority conversations, open the correct customer context, invoke Sales24 AI Assist to prepare a multilingual reply in the ordinary composer, and move a deal after explicit confirmation. The agent has no send-message tool.
 
-## Inspiration
+## Why this is a strong fit for WebMCP
 
-Sales teams in multilingual markets often work across WhatsApp, Instagram, and Messenger while switching between Sorani Kurdish, Arabic, and English. The signal is there, but the next action is buried in a complex interface.
+Sales teams in multilingual markets work across WhatsApp, Instagram, Messenger, Telegram, and email. A generic browser agent can try to infer dense tables and click coordinates, but those interactions are brittle and risky. WebMCP lets Sales24 expose business intent directly while preserving its existing workspace permissions and human-facing interface.
 
-Browser agents can help, but clicking through a CRM by coordinates is brittle and unsafe. The highest-risk action is outbound messaging: a useful agent should help prepare the work without silently speaking on behalf of the company.
+The result is a shared human-agent workspace rather than a hidden automation: the agent selects the conversation, Sales24 visibly opens it, AI Assist places an unsent reply in the real composer, and the operator decides whether anything leaves the company.
 
-We built Sales24 Agent Desk to show a better pattern: the website exposes clear business capabilities through WebMCP, while the human and agent share the same visible state and approval boundary.
+## What people and agents can do together
 
-## What it does
+1. Ask the agent for the highest-priority Arabic, Sorani Kurdish, or English conversation.
+2. Let the agent open the correct conversation in Sales24.
+3. Have Sales24 AI Assist prepare a context-aware reply.
+4. Review or edit that reply in the normal Sales24 composer; it is not sent automatically.
+5. Explicitly approve a pipeline-stage change when appropriate.
 
-The application exposes five imperative WebMCP tools:
+## WebMCP implementation
 
-1. `get_pipeline_snapshot` — reads pipeline value, stage counts, priority load, and the human-review queue.
-2. `find_priority_conversations` — filters and ranks open conversations by language and urgency.
-3. `focus_conversation` — opens one customer in the shared workspace so the human sees the context selected by the agent.
-4. `draft_follow_up` — prepares a Sorani Kurdish, Arabic, or English follow-up and places it in a review-only queue.
-5. `move_deal_stage` — updates the selected deal and immediately reflects the change in the visible pipeline.
+The real Sales24 frontend registers these imperative tools through `document.modelContext.registerTool()`:
 
-The demo workflow asks the agent to find the highest-priority Arabic lead, open it, and prepare a demo follow-up. Narin Solar is selected, an Arabic draft appears as **Needs review / Not sent**, a human approves it, and the agent advances the deal from **Qualified** to **Proposal**. Approval does not send the message. Sales24 deliberately exposes no send tool.
+- `sales24_get_pipeline_summary`
+- `sales24_find_conversations`
+- `sales24_open_conversation`
+- `sales24_prepare_reply`
+- `sales24_move_deal_stage`
 
-## How we built it
+The bridge reads the same authenticated, workspace-scoped hooks used by the product UI. Channel-scoped users only expose their authorized conversations. CRM tools are omitted when the current user's navigation permissions do not include the relevant section. Tool registrations use `AbortSignal` cleanup. Deal changes are marked destructive and require `confirmed: true`. Reply preparation calls the existing Sales24 AI Assist service, stages the result in session-only browser state, opens the real conversation, and never invokes the send-message path.
 
-- TypeScript and Vite for a fast, dependency-light web application
-- The WebMCP imperative API through `document.modelContext.registerTool()`
-- JSON Schema input contracts for each tool
-- `readOnlyHint` annotations on non-mutating tools
-- Structured text and `structuredContent` results
-- One shared state engine used by both the human interface and WebMCP tools
-- Multilingual seed data and draft generation for Sorani Kurdish, Arabic, and English
-- A responsive dark interface with explicit review and delivery status
-- Vitest and jsdom for state, tool-registration, and UI-flow tests
-- GitHub Actions for tests, production builds, GitHub Pages deployment, and reproducible desktop/mobile screenshots
+## Existing product versus challenge work
 
-## Challenges we ran into
+Sales24 existed before the challenge. The WebMCP bridge, tool contracts, composer handoff, registration lifecycle, safety gates, and accompanying tests were added during the challenge period. The public repository contains the runnable open-source reference harness for this new layer. The commercial Sales24 monorepo remains private and is not represented as open source.
 
-### Keeping the human and agent in the same reality
+## Public-source disclosure
 
-A tool response is not enough if the human interface still shows stale data. We made every tool operate on the same state engine as the UI, so focusing a conversation, creating a draft, approving it, or changing a deal stage is immediately visible to both sides.
+The public repository is a complete functional reference implementation with fictional data and the same WebMCP-facing contracts and safety model. The live demonstration uses the real Sales24 deployment and a designated demo workspace. This separation protects proprietary product code and customer data without presenting the reference harness as the production service.
 
-### Designing a safe outbound workflow
+## Verification completed
 
-The easiest demo would have included a send action. We intentionally did not expose one. `draft_follow_up` only creates a review item; approval is a human UI action; approved content remains explicitly **Not sent**. This made the safety boundary simple to understand and inspect.
-
-### Multilingual UX
-
-The inbox mixes Latin and Arabic scripts, three languages, and several channels. We used language-aware content, direction-safe draft rendering, and responsive layouts so the workflow remains understandable on desktop and mobile.
-
-## Accomplishments we are proud of
-
-- Five functional WebMCP tools with clear schemas and annotations
-- A complete native WebMCP workflow verified in a compatible browser
-- Human approval that is visible, auditable, and separate from delivery
-- Shared pipeline and review state that updates immediately after tool execution
-- A polished public demo that works without credentials or production customer data
-- Ten automated tests, a passing production build, and repeatable visual audits at 1440px and 390px
-
-## What we learned
-
-WebMCP is most powerful when tools map to business intent rather than page mechanics. `find_priority_conversations` is more useful and robust than a sequence of clicks and selectors. We also learned that the best agent experience is often the best human experience: explicit state, narrow actions, useful confirmations, and visible safety boundaries help everyone.
-
-## What's next
-
-- Connect the same tool contracts to the production Sales24 backend
-- Add authenticated workspaces and audit trails
-- Add policy-driven approvals by channel, account, and campaign
-- Stream new conversation signals into the shared queue
-- Expand multilingual drafting and review analytics
+- Real Sales24 admin test suite: 2,226 tests passed.
+- TypeScript typecheck passed.
+- Production build passed.
+- Chrome 151 WebMCP lifecycle smoke test passed: tool registered, discovered, and removed after abort.
+- Real Sales24 composer visual check passed with a multilingual draft visibly present and unsent.
 
 ## Links
 
-- Live demo: https://datacode-app.github.io/sales24-webmcp-demo/
-- Public source: https://github.com/datacode-app/sales24-webmcp-demo
+- Real product: **[ADD APPROVED JUDGE-ACCESSIBLE SALES24 URL]**
+- Public WebMCP source and runnable reference: https://github.com/datacode-app/sales24-webmcp-demo
+- Replacement product video: **[ADD PUBLIC YOUTUBE URL]**
 - WebMCP specification: https://github.com/webmachinelearning/webmcp
-
-## Suggested categories/tags
-
-WebMCP, CRM, productivity, customer support, sales, multilingual, human-in-the-loop, TypeScript
 
 ## Submission checklist
 
-- [x] Public functional URL
-- [x] Public source repository with MIT license
-- [x] Five functional imperative WebMCP tools
-- [x] Desktop and mobile visual QA
-- [x] Automated tests and production build
-- [x] Demo video under three minutes generated locally
-- [ ] Upload demo video to an accepted public video host
-- [ ] Join the challenge on Devpost
-- [ ] Paste final submission fields and submit
+- [x] WebMCP integrated into the real Sales24 source branch
+- [x] Five native WebMCP tools and human-review safety boundary
+- [x] Public runnable integration reference with MIT license
+- [x] Automated tests, typecheck, production build, and browser checks
+- [ ] Review and merge the Sales24 pull request
+- [ ] Deploy only after approval
+- [ ] Prepare a safe demo workspace and judge credentials
+- [ ] Record a genuine real-product screen demonstration with audio under three minutes
+- [ ] User approval of the final product flow and video
+- [ ] Submit to Devpost

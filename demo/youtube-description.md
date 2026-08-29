@@ -1,27 +1,29 @@
-# YouTube upload copy
+# YouTube upload copy — replacement real-product recording
+
+> Use only after the new Sales24 screen recording is complete and approved. The rejected slideshow/TTS video must not be uploaded.
 
 ## Title
 
-Sales24 Agent Desk — OpenAI WebMCP Challenge Demo
+Sales24 WebMCP — Real Multilingual CRM Agent Workflow
 
 ## Description
 
-Sales24 Agent Desk is a multilingual CRM workspace where a browser agent and a human share the same inbox, pipeline, and review queue.
+This is a genuine screen recording of WebMCP running inside Sales24, Datacode's real multilingual CRM.
 
-In this 57-second demo, WebMCP tools:
+The demonstration shows an agent using native Sales24 WebMCP tools to:
 
-- read the CRM pipeline;
-- find the highest-priority Arabic conversation;
-- focus Narin Solar in the shared workspace;
-- prepare an Arabic follow-up as a review-only draft;
-- keep the message explicitly Not Sent;
-- and advance the deal from Qualified to Proposal after human review.
+- read the authenticated CRM pipeline;
+- find a priority multilingual conversation;
+- open the customer in the same inbox the operator sees;
+- run Sales24 AI Assist and place an unsent reply in the real composer;
+- leave the reply under human control; and
+- move a deal only after explicit confirmation.
 
-No send tool is exposed. The human stays in control.
+Sales24 exposes no autonomous send-message tool. The agent prepares work; the human remains responsible for outbound communication.
 
-Live demo: https://datacode-app.github.io/sales24-webmcp-demo/
-Source: https://github.com/datacode-app/sales24-webmcp-demo
-WebMCP: https://github.com/webmachinelearning/webmcp
+Real product: **[ADD APPROVED JUDGE-ACCESSIBLE URL]**
+Public WebMCP reference source: https://github.com/datacode-app/sales24-webmcp-demo
+WebMCP specification: https://github.com/webmachinelearning/webmcp
 
 Built by Datacode for the OpenAI WebMCP Challenge 2026.
 
