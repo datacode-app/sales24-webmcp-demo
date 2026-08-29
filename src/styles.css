@@ -141,13 +141,13 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline: 2px solid
 
 @media (max-width: 760px) {
   .app-shell { display: block; }
-  .rail { display: block; position: fixed; inset: auto 12px 12px; width: auto; height: auto; padding: 7px; z-index: 20; border: 1px solid var(--line); border-radius: 15px; background: rgba(5, 16, 13, .94); box-shadow: 0 12px 40px rgba(0,0,0,.38); }
+  .rail { display: block; position: sticky; top: 0; width: 100%; height: auto; padding: 7px 12px; z-index: 20; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: rgba(5, 16, 13, .94); box-shadow: 0 8px 28px rgba(0,0,0,.28); }
   .rail .brand, .rail-note { display: none; }
   .rail nav { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 3px; margin: 0; }
   .rail .nav-item { justify-content: center; gap: 6px; padding: 9px 5px; font-size: 10px; }
   .rail .nav-item span { display: inline; }
   .rail .nav-item svg { width: 16px; height: 16px; }
-  main { padding: 20px 14px 92px; overflow: hidden; }
+  main { padding: 20px 14px; overflow: hidden; }
   .topbar { align-items: flex-start; }
   .topbar > div { min-width: 0; }
   .mcp-status { width: 34px; height: 34px; flex: 0 0 34px; padding: 0; justify-content: center; overflow: hidden; font-size: 0; }
