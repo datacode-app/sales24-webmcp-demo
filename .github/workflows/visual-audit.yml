@@ -20,7 +20,7 @@ jobs:
         run: |
           mkdir -p visual-audit
           npx --yes playwright@1.56.1 screenshot --full-page --viewport-size="1440,900" "https://datacode-app.github.io/sales24-webmcp-demo/?audit=${GITHUB_SHA}" visual-audit/desktop.png
-          npx --yes playwright@1.56.1 screenshot --full-page --device="iPhone 13" "https://datacode-app.github.io/sales24-webmcp-demo/?audit=${GITHUB_SHA}" visual-audit/mobile.png
+          npx --yes playwright@1.56.1 screenshot --browser=chromium --full-page --device="iPhone 13" "https://datacode-app.github.io/sales24-webmcp-demo/?audit=${GITHUB_SHA}" visual-audit/mobile.png
       - uses: actions/upload-artifact@v4
         with:
           name: visual-audit
