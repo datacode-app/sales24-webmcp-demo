@@ -71,14 +71,14 @@ function render(root: HTMLElement, state: CrmState) {
         <div><span class="hero-kicker">Humans decide. Agents accelerate.</span><h2>Turn every customer signal into a clear next action.</h2><p>Sales24 gives an agent structured access to the same multilingual inbox and pipeline the team sees, while every outbound message stays behind a human review gate.</p></div>
         <div class="tool-stack">
           <span>${icon('spark')} 5 live WebMCP tools</span>
-          <code>draft_follow_up</code><code>find_priority_conversations</code><code>move_deal_stage</code>
+          <div class="tool-tags"><code>get_pipeline_snapshot</code><code>find_priority_conversations</code><code>focus_conversation</code><code>draft_follow_up</code><code>move_deal_stage</code></div>
         </div>
       </section>
 
       <section class="metrics" aria-label="Pipeline summary">
         <article><span>Pipeline value</span><strong>${money(snapshot.totalPipelineValue)}</strong><small>Across active opportunities</small></article>
         <article><span>Open conversations</span><strong>${snapshot.openConversations}</strong><small>${snapshot.highPriority} need priority attention</small></article>
-        <article><span>Human review</span><strong>${snapshot.draftsAwaitingReview}</strong><small>Nothing sends automatically</small></article>
+        <article><span>Awaiting human review</span><strong>${snapshot.draftsAwaitingReview}</strong><small>Nothing sends automatically</small></article>
       </section>
 
       <section class="workspace-grid">
@@ -100,7 +100,7 @@ function render(root: HTMLElement, state: CrmState) {
             <button class="primary-button" data-action="draft">${icon('spark')}Draft follow-up</button>
           </div>
           <div class="review-boundary">${icon('shield')}<div><strong>Human review required</strong><span>Agent-created messages are drafts only. No send tool is exposed.</span></div></div>
-          <div class="drafts">${contactDrafts.length ? contactDrafts.map((draft) => `<article class="draft-card"><div><span class="status ${draft.status}">${draft.status === 'needs_review' ? 'Needs review' : 'Approved'}</span><span class="unsent">Not sent</span></div><p dir="auto">${draft.body}</p>${draft.status === 'needs_review' ? `<button data-approve-draft="${draft.id}">Approve draft</button>` : ''}</article>`).join('') : '<div class="empty-state">Ask your browser agent to draft a follow-up, or use the controls above.</div>'}</div>
+          <div class="drafts"><p class="draft-label">Draft preview</p>${contactDrafts.length ? contactDrafts.map((draft) => `<article class="draft-card"><div><span class="status ${draft.status}">${draft.status === 'needs_review' ? 'Needs review' : 'Approved'}</span><span class="unsent">Not sent</span></div><p dir="auto">${draft.body}</p>${draft.status === 'needs_review' ? `<button data-approve-draft="${draft.id}">Approve draft</button>` : ''}</article>`).join('') : '<div class="empty-state">Ask your browser agent to draft a follow-up, or use the controls above.</div>'}</div>
         </section>
 
         <section class="panel pipeline-panel" id="pipeline">
@@ -111,7 +111,7 @@ function render(root: HTMLElement, state: CrmState) {
         </section>
       </section>
 
-      <section class="prompt-strip" id="agent"><span>Try in ChatGPT or Chrome with WebMCP enabled</span><code>“Find my highest-priority Arabic lead, open it, and draft a demo follow-up.”</code></section>
+      <section class="prompt-strip" id="agent"><div><span>Try this WebMCP prompt</span><code>“Find my highest-priority Arabic lead, open it, and draft a demo follow-up.”</code></div><button data-copy-prompt>Copy prompt</button></section>
       <footer><span>Sales24 by Datacode</span><span>WebMCP Challenge 2026 · Demo data only</span></footer>
     </main>
   </div>`;
@@ -124,6 +124,11 @@ function render(root: HTMLElement, state: CrmState) {
   });
   root.querySelectorAll<HTMLButtonElement>('[data-approve-draft]').forEach((button) => button.addEventListener('click', () => approveDraft({ draftId: button.dataset.approveDraft! })));
   root.querySelector<HTMLSelectElement>('[data-stage]')?.addEventListener('change', (event) => moveDealStage({ contactId: focused.id, stage: (event.target as HTMLSelectElement).value as DealStage }));
+  root.querySelector<HTMLButtonElement>('[data-copy-prompt]')?.addEventListener('click', async (event) => {
+    const button = event.currentTarget as HTMLButtonElement;
+    await navigator.clipboard?.writeText('Find my highest-priority Arabic lead, open it, and draft a demo follow-up.');
+    button.textContent = 'Copied';
+  });
 }
 
 export function setWebMcpStatus(mode: 'native' | 'preview') {
