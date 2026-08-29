@@ -35,7 +35,7 @@ The demo workflow asks the agent to find the highest-priority Arabic lead, open 
 ## How we built it
 
 - TypeScript and Vite for a fast, dependency-light web application
-- The WebMCP imperative API through `navigator.modelContext.registerTool()`
+- The WebMCP imperative API through `document.modelContext.registerTool()`
 - JSON Schema input contracts for each tool
 - `readOnlyHint` annotations on non-mutating tools
 - Structured text and `structuredContent` results
