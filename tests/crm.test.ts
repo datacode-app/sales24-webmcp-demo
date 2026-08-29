@@ -41,7 +41,7 @@ describe('Sales24 shared CRM state', () => {
   });
 
   it('moves a deal and records the visible activity', () => {
-    const result = moveDealStage({ contactId: 'c-103', stage: 'proposal' });
+    const result = moveDealStage({ contactId: 'c-101', stage: 'proposal' });
     expect(result.previousStage).toBe('qualified');
     expect(result.stage).toBe('proposal');
     expect(result.activity.message).toContain('Proposal');

@@ -40,9 +40,9 @@ export interface CrmState {
 }
 
 const seedContacts: Contact[] = [
-  { id: 'c-101', name: 'Dilan Ahmed', company: 'Narin Solar', language: 'ar', priority: 'high', stage: 'proposal', value: 32000, channel: 'WhatsApp', lastMessage: 'Can you share the commercial terms?', waitingMinutes: 74 },
+  { id: 'c-101', name: 'Dilan Ahmed', company: 'Narin Solar', language: 'ar', priority: 'high', stage: 'qualified', value: 32000, channel: 'WhatsApp', lastMessage: 'Can you share the commercial terms?', waitingMinutes: 74 },
   { id: 'c-102', name: 'Shaho Karim', company: 'Roj Solar', language: 'ckb', priority: 'high', stage: 'new', value: 24000, channel: 'Instagram', lastMessage: 'دەتوانین دیمۆیەک ببینین؟', waitingMinutes: 42 },
-  { id: 'c-103', name: 'Sara Mahmoud', company: 'Helio Systems', language: 'en', priority: 'medium', stage: 'qualified', value: 18500, channel: 'Messenger', lastMessage: 'Please send available onboarding times.', waitingMinutes: 31 },
+  { id: 'c-103', name: 'Sara Mahmoud', company: 'Helio Systems', language: 'en', priority: 'medium', stage: 'proposal', value: 18500, channel: 'Messenger', lastMessage: 'Please send available onboarding times.', waitingMinutes: 31 },
   { id: 'c-104', name: 'Omar Aziz', company: 'Mesopotamia Energy', language: 'ar', priority: 'low', stage: 'new', value: 20000, channel: 'WhatsApp', lastMessage: 'نحتاج تفاصيل أكثر عن النظام.', waitingMinutes: 18 },
   { id: 'c-105', name: 'Kawa Salih', company: 'Zagros Renewables', language: 'ckb', priority: 'medium', stage: 'proposal', value: 15000, channel: 'Instagram', lastMessage: 'نرخ و ماوەی دامەزراندن چەندە؟', waitingMinutes: 12 },
   { id: 'c-106', name: 'Lana Hassan', company: 'SunGrid Iraq', language: 'en', priority: 'low', stage: 'qualified', value: 15000, channel: 'WhatsApp', lastMessage: 'Can your team support Arabic?', waitingMinutes: 6 },
